@@ -5,16 +5,16 @@ import Coin from "./Coin";
 
 function App() {
   const [coins, setCoins] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const URL =
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
 
   useEffect(() => {
     axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-      )
+      .get(URL)
       .then((response) => {
         setCoins(response.data);
-        console.log(response.data)
+        console.log(response.data);
       })
       .catch((error) => {
         alert("Api error");
@@ -25,11 +25,11 @@ function App() {
     setSearch(e.target.value);
   };
 
-  const filteredCoins = coins.filter(coin => {
+  const filteredCoins = coins.filter((coin) => {
     return coin.name.toLowerCase().includes(search.toLowerCase());
   });
 
-  return (    
+  return (
     <div className="coin-app">
       <div className="coin-search">
         <h1 className="coin-text">Search a currency</h1>
@@ -43,7 +43,7 @@ function App() {
           ></input>
         </form>
       </div>
-      {filteredCoins.map(coin => {
+      {filteredCoins.map((coin) => {
         return (
           <Coin
             key={coin.id}
