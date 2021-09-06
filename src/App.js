@@ -2,19 +2,22 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Coin from "./Coin";
+import Loader from "./component/loader/Loader";
 
 function App() {
   const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const URL =
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(URL)
       .then((response) => {
+        setLoading(false);
         setCoins(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         alert("Api error");
@@ -43,7 +46,8 @@ function App() {
           ></input>
         </form>
       </div>
-      {filteredCoins.map((coin) => {
+      { loading ? <Loader /> :
+       filteredCoins.map((coin) => {
         return (
           <Coin
             key={coin.id}
